@@ -1,13 +1,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import {
-  HiLightningBolt,
-  HiCollection,
-  HiPhotograph,
-  HiDesktopComputer,
-  HiSparkles,
-} from 'react-icons/hi'
+import ProjectIllustration from './ProjectIllustration'
 
 const projects = [
   {
@@ -16,7 +10,7 @@ const projects = [
     description:
       'Developed an AI-powered web application to help farmers and gardeners instantly identify potato leaf diseases (Early Blight, Late Blight, or Healthy) using deep learning. Integrated CNN-based machine learning model achieving 95%+ accuracy. Built with FastAPI backend and React.js frontend.',
     tech: ['Python', 'FastAPI', 'TensorFlow/Keras', 'React.js', 'Material-UI', 'Deep Learning'],
-    icon: HiLightningBolt,
+    illustration: 'potato',
     status: 'Active',
     gradient: 'from-emerald-400 to-teal-500',
   },
@@ -26,7 +20,7 @@ const projects = [
     description:
       'Developed secure web-based voting system for academic use. Implemented authentication and real-time vote counting. Created result visualization and admin management system.',
     tech: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
-    icon: HiCollection,
+    illustration: 'voting',
     status: 'Completed',
     gradient: 'from-amber-400 to-orange-500',
   },
@@ -36,7 +30,7 @@ const projects = [
     description:
       'Developed wallpaper sharing and downloading platform. Implemented authentication and image categorization system. Added search, upload, and download functionality.',
     tech: ['HTML', 'CSS', 'JavaScript', 'PHP', 'Firebase Storage'],
-    icon: HiPhotograph,
+    illustration: 'wallpaper',
     status: 'Completed',
     gradient: 'from-violet-400 to-purple-500',
   },
@@ -46,7 +40,7 @@ const projects = [
     description:
       'Developed multiplayer Android game with real-time interaction. Added score tracking and interactive gameplay UI. Used Git and GitHub for collaboration and version control.',
     tech: ['Android Studio', 'Java', 'Firebase Realtime Database'],
-    icon: HiDesktopComputer,
+    illustration: 'gamepad',
     status: 'Completed',
     gradient: 'from-rose-400 to-pink-500',
   },
@@ -56,7 +50,7 @@ const projects = [
     description:
       'Developed a real-time multiplayer Android game with location-based and AR treasure hunting features. Added live chat, leaderboard, player tracking, and personalized AI-powered challenges. Implemented Firebase authentication and real-time data synchronization.',
     tech: ['Android Studio', 'Java', 'Firebase', 'ARCore', 'TensorFlow Lite', 'osmdroid'],
-    icon: HiSparkles,
+    illustration: 'treasure',
     status: 'Completed',
     gradient: 'from-sky-400 to-blue-500',
   },
@@ -115,10 +109,11 @@ export default function Projects() {
                 className={`relative h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}
               >
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]" />
-                <project.icon
-                  size={64}
-                  className="text-white/80 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500"
-                />
+                <motion.div
+                  className="group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500"
+                >
+                  <ProjectIllustration name={project.illustration} />
+                </motion.div>
                 <span className="absolute top-3 right-3 px-2.5 py-1 text-xs font-semibold bg-white/20 backdrop-blur-sm text-white rounded-full">
                   {project.status}
                 </span>

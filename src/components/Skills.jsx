@@ -13,22 +13,27 @@ const skillCategories = [
   {
     title: 'Programming & Web Development',
     icon: HiCode,
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'Bootstrap'],
+    skills: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'Bootstrap', 'React', 'Tailwind CSS'],
   },
   {
     title: 'Mobile App Development',
     icon: HiDeviceMobile,
-    skills: ['Android Studio', 'React Native', 'Java', 'TypeScript'],
+    skills: ['Android Studio', 'React Native', 'Java', 'TypeScript', 'Kotlin'],
   },
   {
     title: 'Database & Backend',
     icon: HiDatabase,
-    skills: ['MySQL', 'Firebase', 'FastAPI', 'Supabase'],
+    skills: ['MySQL', 'Firebase', 'FastAPI', 'Supabase', 'Node.js', 'REST APIs'],
+  },
+  {
+    title: 'AI & Machine Learning',
+    icon: HiCode,
+    skills: ['Python', 'TensorFlow/Keras', 'Deep Learning', 'Computer Vision', 'CNN'],
   },
   {
     title: 'Tools & Platforms',
     icon: HiCog,
-    skills: ['Git', 'GitHub', 'VS Code', 'Figma'],
+    skills: ['Git', 'GitHub', 'VS Code', 'Figma', 'Docker', 'Postman', 'Notion'],
   },
   {
     title: 'Professional Skills',

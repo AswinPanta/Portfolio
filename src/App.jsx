@@ -7,6 +7,7 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Workshops from './components/Workshops'
 import Contact from './components/Contact'
+import FloatingElements from './components/FloatingElements'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-white dark:bg-slate-900 text-stone-800 dark:text-stone-200 transition-colors duration-300"
     >
+      <FloatingElements />
       <Navbar />
       <main>
         <Hero />

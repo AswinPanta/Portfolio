@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { HiCode, HiLightBulb, HiAcademicCap } from 'react-icons/hi'
+import CartoonIllustration from './CartoonIllustration'
 
 const stats = [
   { icon: HiCode, label: 'Projects Built', value: '5+' },
@@ -37,12 +38,20 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-400 to-emerald-600 flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
-              <HiAcademicCap size={80} className="text-white/80" />
+            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-emerald-400/20 via-teal-400/10 to-emerald-600/20 dark:from-emerald-500/10 dark:via-teal-400/5 dark:to-emerald-600/10 border border-emerald-200 dark:border-emerald-800/30 flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(52,211,153,0.1),transparent_60%)]" />
+              <CartoonIllustration variant="developer" />
             </div>
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-500/20 rounded-full blur-xl" />
-            <div className="absolute -top-4 -left-4 w-20 h-20 bg-emerald-500/20 rounded-full blur-xl" />
+            <motion.div
+              className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-500/20 rounded-full blur-xl"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            <motion.div
+              className="absolute -top-4 -left-4 w-20 h-20 bg-emerald-500/20 rounded-full blur-xl"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+            />
           </motion.div>
 
           <motion.div
@@ -71,9 +80,14 @@ export default function About() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                  className="text-center p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-stone-200 dark:border-stone-700"
+                  className="text-center p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-stone-200 dark:border-stone-700 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md transition-all duration-300"
                 >
-                  <stat.icon className="mx-auto mb-1.5 text-emerald-500" size={20} />
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                  >
+                    <stat.icon className="mx-auto mb-1.5 text-emerald-500" size={20} />
+                  </motion.div>
                   <div className="text-xl sm:text-2xl font-bold text-stone-800 dark:text-white">
                     {stat.value}
                   </div>
