@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { HiCode, HiLightBulb, HiAcademicCap } from 'react-icons/hi'
-import CartoonIllustration from './CartoonIllustration'
+import PhotoSlideshow from './PhotoSlideshow'
 
 const stats = [
   { icon: HiCode, label: 'Projects Built', value: '5+' },
@@ -36,22 +36,9 @@ export default function About() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            className="relative group"
           >
-            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-emerald-400/20 via-teal-400/10 to-emerald-600/20 dark:from-emerald-500/10 dark:via-teal-400/5 dark:to-emerald-600/10 border border-emerald-200 dark:border-emerald-800/30 flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(52,211,153,0.1),transparent_60%)]" />
-              <CartoonIllustration variant="developer" />
-            </div>
-            <motion.div
-              className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-500/20 rounded-full blur-xl"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            <motion.div
-              className="absolute -top-4 -left-4 w-20 h-20 bg-emerald-500/20 rounded-full blur-xl"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-            />
+            <PhotoSlideshow />
           </motion.div>
 
           <motion.div

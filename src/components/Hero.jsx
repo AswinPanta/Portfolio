@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { HiMail } from 'react-icons/hi'
 import { FaGithub } from 'react-icons/fa'
-import CartoonAvatar from './CartoonAvatar'
 
 const titles = [
   'BIT Student',
@@ -138,7 +137,20 @@ export default function Hero() {
           variants={itemVariants}
           className="order-1 md:order-2 flex justify-center"
         >
-          <CartoonAvatar />
+          <div className="relative">
+            <motion.div
+              className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 blur-xl opacity-30"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            <motion.img
+              src="/assets/1.jpeg"
+              alt="Aswin Panta"
+              className="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-white dark:border-slate-800 shadow-2xl"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </div>
         </motion.div>
       </motion.div>
 
