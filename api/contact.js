@@ -1,15 +1,13 @@
-import { Resend } from 'resend'
+import sgMail from '@sendgrid/mail'
 
 const NOTIFY_TO = 'Aswingorey36@gmail.com'
-// Until you verify a custom domain in Resend, you must send from this
-// onboarding address in the sandbox. Replace with e.g.
-// `Portfolio <hello@yourdomain.com>` after verifying a domain at
-// https://resend.com/domains
-const FROM_ADDRESS = 'Portfolio Contact <onboarding@resend.dev>'
+// This must be a verified Single Sender in SendGrid.
+// Go to https://sendgrid.com/settings/sender_auth → Single Sender Verification
+// and verify your Gmail address, then put it here.
+const FROM_ADDRESS = 'Aswingorey36@gmail.com'
+const FROM_NAME = 'Portfolio Contact'
 
 // --- Lightweight per-IP rate limiter -------------------------------------
-// We only need burst protection; the Map doesn't survive cold starts but
-// still caps repeat spam from a single warm instance, and is pruned below.
 const WINDOW_MS = 10 * 60 * 1000 // 10 minutes
 const MAX_PER_WINDOW = 5
 /** @type {Map<string, number[]>} */
@@ -29,7 +27,6 @@ function rateLimit(ip) {
   if (arr.length >= MAX_PER_WINDOW) return false
   arr.push(now)
   hits.set(ip, arr)
-  // Prune stale IPs every so often so the Map can't grow unbounded.
   if (hits.size > 500) {
     for (const [key, times] of hits) {
       if (times.every((t) => t <= cutoff)) hits.delete(key)
@@ -38,10 +35,6 @@ function rateLimit(ip) {
   return true
 }
 // -------------------------------------------------------------------------
-
-function getResend() {
-  return new Resend(process.env.RESEND_API_KEY)
-}
 
 function isValidEmail(value) {
   if (typeof value !== 'string') return false
@@ -65,12 +58,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    console.error('Missing RESEND_API_KEY env var')
+  if (!process.env.SENDGRID_API_KEY) {
+    console.error('Missing SENDGRID_API_KEY env var')
     return res
       .status(500)
       .json({ error: 'Server is not configured for email.' })
   }
+
+  // Lazy-init so cold checks still return 405 / 500 before initing the client.
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
   const ip = clientIp(req)
   if (!rateLimit(ip)) {
@@ -91,8 +87,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true })
   }
 
-  // Require at least one non-whitespace character in the name so subjects
-  // like "Thanks for reaching out, !" never happen.
   if (name.length < 1 || name.length > 120 || !/\S/.test(name)) {
     return res.status(400).json({ error: 'Please enter your name.' })
   }
@@ -112,14 +106,15 @@ export default async function handler(req, res) {
   const safeMessage = escapeHtml(message).replace(/\n/g, '<br/>')
   const firstName = escapeHtml(name.split(/\s+/)[0] || name)
 
+  const from = { email: FROM_ADDRESS, name: FROM_NAME }
+
   try {
-    const resend = getResend()
     await Promise.all([
       // 1. Notification email to you.
-      resend.emails.send({
-        from: FROM_ADDRESS,
-        to: [NOTIFY_TO],
-        reply_to: email,
+      sgMail.send({
+        to: NOTIFY_TO,
+        from,
+        replyTo: email,
         subject: `New message from ${name}`,
         text:
           `Name: ${name}\n` +
@@ -139,9 +134,9 @@ export default async function handler(req, res) {
         `,
       }),
       // 2. Auto-reply to the person who filled out the form.
-      resend.emails.send({
-        from: FROM_ADDRESS,
-        to: [email],
+      sgMail.send({
+        to: email,
+        from,
         subject: `Thanks for reaching out, ${name.split(/\s+/)[0] || name}!`,
         text:
           `Hi ${name.split(/\s+/)[0] || name},\n\n` +
@@ -161,7 +156,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ ok: true })
   } catch (error) {
-    console.error('Resend send failed:', error)
+    console.error('SendGrid send failed:', error)
     return res
       .status(500)
       .json({

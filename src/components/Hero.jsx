@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { HiMail } from 'react-icons/hi'
 import { FaGithub } from 'react-icons/fa'
+import ThreeDFace from './ThreeDFace'
+import { createFaceMeshData } from '../utils/faceMesh'
 
 const titles = [
   'BIT Student',
@@ -14,6 +16,16 @@ export default function Hero() {
   const [titleIndex, setTitleIndex] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
   const [deleting, setDeleting] = useState(false)
+  const [faceData, setFaceData] = useState(null)
+  const [faceError, setFaceError] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+    createFaceMeshData()
+      .then((data) => { if (!cancelled) setFaceData(data) })
+      .catch((err) => { if (!cancelled) setFaceError(err.message) })
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     const current = titles[titleIndex]
@@ -137,20 +149,13 @@ export default function Hero() {
           variants={itemVariants}
           className="order-1 md:order-2 flex justify-center"
         >
-          <div className="relative">
-            <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 blur-xl opacity-30"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            <motion.img
-              src="/assets/1.jpeg"
-              alt="Aswin Panta"
-              className="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-white dark:border-slate-800 shadow-2xl"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </div>
+          {faceError ? (
+            <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-sm text-center px-4">
+              3D face unavailable
+            </div>
+          ) : (
+            <ThreeDFace faceData={faceData} />
+          )}
         </motion.div>
       </motion.div>
 

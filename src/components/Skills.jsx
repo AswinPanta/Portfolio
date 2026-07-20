@@ -11,6 +11,44 @@ import {
 
 const skillCategories = [
   {
+    title: 'React Ecosystem',
+    icon: HiCode,
+    skills: [
+      'React.js',
+      'React Three Fiber',
+      'Framer Motion',
+      'React Hooks',
+      'State Management',
+      'JSX',
+      'React Router',
+    ],
+  },
+  {
+    title: 'Animation & 3D',
+    icon: HiCog,
+    skills: [
+      'Three.js',
+      'WebGL',
+      '3D Modeling',
+      'CSS Animations',
+      'Motion Design',
+      'Interactive Graphics',
+      'Particle Systems',
+    ],
+  },
+  {
+    title: 'Computer Vision & AI',
+    icon: HiCode,
+    skills: [
+      'MediaPipe',
+      'Face Landmark Detection',
+      'Photogrammetry',
+      '3D Face Reconstruction',
+      'Image Processing',
+      'Blendshape Animation',
+    ],
+  },
+  {
     title: 'Programming & Web Development',
     icon: HiCode,
     skills: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'Bootstrap', 'React', 'Tailwind CSS'],

@@ -4,6 +4,11 @@ import { useRef } from 'react'
 import { HiBookOpen } from 'react-icons/hi'
 
 const workshops = [
+  'Three.js',
+  'React Three Fiber',
+  'Blender',
+  'MediaPipe',
+  'Computer Vision',
   'Laravel',
   'Bootstrap',
   'AWS',
