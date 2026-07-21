@@ -48,15 +48,14 @@ const staticProjects = {
 }
 
 export default function GitHubProjectCard({ project }) {
-  const [repoData, setRepoData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [repoData, setRepoData] = useState(() => {
+    if (!project.repo) return staticProjects[project.title] || null
+    return null
+  })
+  const [loading, setLoading] = useState(() => !project.repo ? false : true)
 
   useEffect(() => {
-    if (!project.repo) {
-      setRepoData(staticProjects[project.title] || null)
-      setLoading(false)
-      return
-    }
+    if (!project.repo) return
 
     fetch(`https://api.github.com/repos/AswinPanta/${project.repo}`)
       .then((res) => {

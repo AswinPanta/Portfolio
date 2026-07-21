@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   HiMail,
@@ -7,19 +7,15 @@ import {
   HiExclamationCircle,
   HiTrash,
 } from 'react-icons/hi'
-import { FaGithub } from 'react-icons/fa'
 
 export default function Admin() {
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState(() =>
+    JSON.parse(localStorage.getItem('contact_messages') || '[]')
+  )
   const [replyingTo, setReplyingTo] = useState(null)
   const [replyMessage, setReplyMessage] = useState('')
   const [status, setStatus] = useState('idle')
   const [statusMessage, setStatusMessage] = useState('')
-
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('contact_messages') || '[]')
-    setMessages(stored)
-  }, [])
 
   const updateMessages = (updated) => {
     setMessages(updated)

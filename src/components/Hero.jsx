@@ -38,8 +38,10 @@ export default function Hero() {
     } else if (deleting && charIndex > 0) {
       timeout = setTimeout(() => setCharIndex((c) => c - 1), 40)
     } else if (deleting && charIndex === 0) {
-      setDeleting(false)
-      setTitleIndex((i) => (i + 1) % titles.length)
+      timeout = setTimeout(() => {
+        setDeleting(false)
+        setTitleIndex((i) => (i + 1) % titles.length)
+      }, 0)
     }
 
     return () => clearTimeout(timeout)

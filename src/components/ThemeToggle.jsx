@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { HiSun, HiMoon } from 'react-icons/hi'
-import { useTheme } from '../context/ThemeContext'
+import useTheme from '../context/useTheme'
 
 export default function ThemeToggle() {
   const { dark, toggle } = useTheme()

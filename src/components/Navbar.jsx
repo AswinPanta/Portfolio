@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
-import { useTheme } from '../context/ThemeContext'
+import useTheme from '../context/useTheme'
 import ThemeToggle from './ThemeToggle'
 
 const links = [
