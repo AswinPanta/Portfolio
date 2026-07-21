@@ -36,7 +36,7 @@ const contactInfo = [
   },
 ]
 
-const initialForm = { name: '', email: '', message: '', _honey: '' }
+const initialForm = { name: '', email: '', message: '', honeypot: '' }
 
 function Field({ id, label, type = 'text', value, onChange, rows, required, error }) {
   const baseInput =
@@ -135,20 +135,30 @@ export default function Contact() {
     setFieldErrors({})
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          honeypot: form.honeypot,
+        }),
       })
       const data = await res.json().catch(() => ({}))
 
-      if (!res.ok) {
+      if (!res.ok || !data.ok) {
         setStatus('error')
         setStatusMessage(
           data?.error || 'Sorry — something went wrong. Please try again.'
         )
         return
       }
+
+      // Save message to localStorage
+      const messages = JSON.parse(localStorage.getItem('contact_messages') || '[]')
+      messages.unshift(data.message)
+      localStorage.setItem('contact_messages', JSON.stringify(messages))
 
       setStatus('success')
       setStatusMessage(
@@ -283,10 +293,10 @@ export default function Contact() {
                   Don&apos;t fill this out:
                   <input
                     type="text"
-                    name="_honey"
+                    name="honeypot"
                     tabIndex={-1}
                     autoComplete="off"
-                    value={form._honey}
+                    value={form.honeypot}
                     onChange={handleChange}
                   />
                 </label>
