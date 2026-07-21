@@ -8,8 +8,22 @@ import Projects from './components/Projects'
 import Workshops from './components/Workshops'
 import Contact from './components/Contact'
 import FloatingElements from './components/FloatingElements'
+import Admin from './pages/Admin'
 
-export default function App() {
+function AdminLayout() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen"
+    >
+      <Admin />
+    </motion.div>
+  )
+}
+
+function PortfolioLayout() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -30,4 +44,9 @@ export default function App() {
       </main>
     </motion.div>
   )
+}
+
+export default function App() {
+  const isAdmin = window.location.pathname === '/admin'
+  return isAdmin ? <AdminLayout /> : <PortfolioLayout />
 }
